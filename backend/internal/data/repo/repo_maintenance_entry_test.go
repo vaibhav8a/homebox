@@ -11,6 +11,11 @@ import (
 	"github.com/sysadminsmedia/homebox/backend/internal/data/types"
 )
 
+// The filler description every maintenance fixture in this package uses. A
+// constant because there are now five of them and goconst's threshold is five;
+// none of the tests care what it says.
+const maintenanceDescription = "Maintenance description"
+
 // get the previous month from the current month, accounts for errors when run
 // near the beginning or end of the month/year
 func getPrevMonth(now time.Time) time.Time {
@@ -48,7 +53,7 @@ func TestMaintenanceEntryRepository_GetLog(t *testing.T) {
 		created[i] = MaintenanceEntryCreate{
 			CompletedDate: types.DateFromTime(dt),
 			Name:          "Maintenance",
-			Description:   "Maintenance description",
+			Description:   maintenanceDescription,
 			Cost:          10,
 		}
 	}
@@ -57,7 +62,7 @@ func TestMaintenanceEntryRepository_GetLog(t *testing.T) {
 	created[10] = MaintenanceEntryCreate{
 		CompletedDate: types.DateFromTime(time.Now().AddDate(0, 0, 1)),
 		Name:          "Maintenance",
-		Description:   "Maintenance description",
+		Description:   maintenanceDescription,
 		Cost:          10,
 	}
 
@@ -95,13 +100,13 @@ func TestGetAllMaintenance_FutureCompletionIsScheduledNotCompleted(t *testing.T)
 	past := MaintenanceEntryCreate{
 		CompletedDate: types.DateFromTime(getPrevMonth(time.Now())),
 		Name:          "Done last month",
-		Description:   "Maintenance description",
+		Description:   maintenanceDescription,
 		Cost:          10,
 	}
 	future := MaintenanceEntryCreate{
 		CompletedDate: types.DateFromTime(time.Now().AddDate(0, 0, 7)),
 		Name:          "Booked for next week",
-		Description:   "Maintenance description",
+		Description:   maintenanceDescription,
 		Cost:          10,
 	}
 
